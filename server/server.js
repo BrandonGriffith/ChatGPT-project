@@ -5,4 +5,4 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const openConfig = new Configuration( { apiKey : process.env.OPEN_AI_KEY } );
+let openConfig = new Configuration( { apiKey : process.env.OPEN_AI_KEY } );
