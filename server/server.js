@@ -12,9 +12,14 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', async (req, res) => {
-    res.status(200).send({
-        message: "Hello World"
-    })
+    try {
+        res.status(200).send({
+            message: "Hello World"
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Something went wrong");
+    }
 });
 
 let messages = [{
@@ -23,12 +28,12 @@ let messages = [{
 }];
 
 app.post('/', async (req, res) => {
-    console.log(messages , 'posting messages');
-    if (messages.length > 5) {
-        console.log("deleting messages older than 5");
-        messages = messages.slice(-5);
-    }
     try {
+        console.log(messages , 'posting messages');
+        if (messages.length > 5) {
+            console.log("deleting messages older than 5");
+            messages = messages.slice(-5);
+        }
         let prompt = req.body.prompt;
         if (!prompt) {
             throw new Error("Prompt is required");
@@ -36,7 +41,7 @@ app.post('/', async (req, res) => {
         prompt = {
             "role": "user",
             "content": `${prompt}`
-        }
+        };
         const response = await openai.createChatCompletion({
             "model": "gpt-3.5-turbo-1106",
             "messages": [
