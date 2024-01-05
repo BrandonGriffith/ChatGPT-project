@@ -27,7 +27,16 @@ let messages = [{
     "content": "You are an assistant."
 }];
 
-app.post('/', async (req, res) => {
+const checkKey = (req, res, next) => {
+    console.log(req.body.passKey);
+    if (req.body.passKey !== process.env.PASSKEY) {
+        res.status(500).send("Invalid key");
+    } else {
+        next();
+    }
+};
+
+app.post('/', checkKey ,async (req, res) => {
     try {
         console.log(messages , 'posting messages');
         if (messages.length > 5) {

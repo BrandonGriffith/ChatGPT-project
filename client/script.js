@@ -69,7 +69,8 @@ const handleSubmit = async (e) => {
         },
         body: JSON.stringify({
             prompt: data.get('prompt'),
-            model: 'gpt-3.5-turbo'
+            model: 'gpt-3.5-turbo',
+            passKey: import.meta.env.VITE_PASSKEY
         })
     });
 
