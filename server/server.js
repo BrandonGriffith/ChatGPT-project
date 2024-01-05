@@ -12,15 +12,16 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', async (req, res) => {
-    console.log('running get');
     res.status(200).send({
         message: "Hello World"
     })
 });
+
 let messages = [{
     "role": "system",
     "content": "You are an assistant."
 }];
+
 app.post('/', async (req, res) => {
     console.log(messages , 'posting messages');
     if (messages.length > 5) {
@@ -38,13 +39,12 @@ app.post('/', async (req, res) => {
         }
         const response = await openai.createChatCompletion({
             "model": "gpt-3.5-turbo-1106",
-        "messages": [
-            ...messages,
-            prompt
-        ],
+            "messages": [
+                ...messages,
+                prompt
+            ],
         });
         messages.push(response.data.choices[0].message);
-        console.log(response.data.choices[0].message, 'new message');
         res.status(200).send({
             bot: response.data.choices[0].message,
         });
