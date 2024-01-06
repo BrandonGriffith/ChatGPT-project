@@ -3,6 +3,7 @@ import user from './assets/user.svg';
 
 const chatForm = document.querySelector('#chat_form');
 const chatContainer = document.querySelector('#chat_container');
+document.getElementById('prompt').focus();
 
 let loadInterval;
 
