@@ -41,9 +41,7 @@ const chatStripe = (isAi, value, id) =>
                     alt="${isAi ? 'bot' : 'user'}"
                 />
             </div>
-            <div class="message" id="${id}">
-                ${value}
-            </div>
+            <div class="message" id="${id}">${value}</div>
         </div>
     </div>
     `;
@@ -55,20 +53,22 @@ const handleSubmit = async (e) => {
     document.getElementById('prompt').focus();
 
     const data = new FormData(chatForm);
-    const id = generateId();
+    const id_user = generateId();
+    const id_ai = generateId();
 
     if (!passKey) {
-        passKey = document.getElementById('passKey').value.replace(/\s/g, '');;
+        passKey = document.getElementById('passKey').value.replace(/\s/g, '');
         document.getElementById('passKey').remove();
     };
 
-    chatContainer.innerHTML += chatStripe(false, data.get('prompt'));
-    chatContainer.innerHTML += chatStripe(true, ' ', id);
+    let userMessage = data.get('prompt');
+    chatContainer.innerHTML += chatStripe(false, userMessage, id_user);
+    chatContainer.innerHTML += chatStripe(true, ' ', id_ai);
 
     chatForm.reset();
     chatContainer.scrollTop = chatContainer.scrollHeight;
 
-    const message = document.getElementById(id);
+    const message = document.getElementById(id_ai);
     loader(message);
 
     const response = await fetch(import.meta.env.VITE_SERVERURL, {

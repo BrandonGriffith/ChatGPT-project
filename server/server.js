@@ -35,17 +35,17 @@ const checkKey = (req, res, next) => {
     }
 };
 
-app.post('/', checkKey ,async (req, res) => {
+app.post('/', checkKey, async (req, res) => {
     try {
         console.log(messages , 'posting messages');
         if (messages.length > 5) {
             console.log("deleting messages older than 5");
             messages = messages.slice(-5);
-        }
+        };
         let prompt = req.body.prompt;
         if (!prompt) {
             throw new Error("Prompt is required");
-        }
+        };
         prompt = {
             "role": "user",
             "content": `${prompt}`
