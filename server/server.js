@@ -28,8 +28,7 @@ let messages = [{
 }];
 
 const checkKey = (req, res, next) => {
-    console.log(req.body.passKey);
-    if (req.body.passKey !== process.env.PASSKEY) {
+    if (req.body.passKey != process.env.PASSKEY) {
         res.status(500).send("Invalid key");
     } else {
         next();

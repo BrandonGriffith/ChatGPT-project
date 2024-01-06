@@ -1,7 +1,7 @@
 import bot from './assets/bot.svg';
 import user from './assets/user.svg';
 
-const form = document.querySelector('form');
+const chatForm = document.querySelector('#chat_form');
 const chatContainer = document.querySelector('#chat_container');
 
 let loadInterval;
@@ -48,15 +48,24 @@ const chatStripe = (isAi, value, id) =>
     </div>
     `;
 
+let passKey;
+
 const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData(form);
+    document.getElementById('prompt').focus();
+
+    const data = new FormData(chatForm);
     const id = generateId();
+
+    if (!passKey) {
+        passKey = document.getElementById('passKey').value.replace(/\s/g, '');;
+        document.getElementById('passKey').remove();
+    };
 
     chatContainer.innerHTML += chatStripe(false, data.get('prompt'));
     chatContainer.innerHTML += chatStripe(true, ' ', id);
 
-    form.reset();
+    chatForm.reset();
     chatContainer.scrollTop = chatContainer.scrollHeight;
 
     const message = document.getElementById(id);
@@ -70,7 +79,7 @@ const handleSubmit = async (e) => {
         body: JSON.stringify({
             prompt: data.get('prompt'),
             model: 'gpt-3.5-turbo',
-            passKey: import.meta.env.VITE_PASSKEY
+            passKey
         })
     });
 
@@ -88,8 +97,8 @@ const handleSubmit = async (e) => {
     }
 };
 
-form.addEventListener('submit', handleSubmit);
-form.addEventListener('keyup', (e) => {
+chatForm.addEventListener('submit', handleSubmit);
+chatForm.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') {
         handleSubmit(e);
     }
