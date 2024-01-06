@@ -111,7 +111,7 @@ form {
     gap: 10px;
 }
 
-textarea {
+textarea, input {
     width: 100%;
 
     color: #fff;

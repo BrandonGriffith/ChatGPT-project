@@ -22,7 +22,7 @@ const typeText = (e, text) => {
         } else {
             clearInterval(interval);
         }
-    }, 20);
+    }, 10);
 };
 
 const generateId = () => {
@@ -57,7 +57,15 @@ const handleSubmit = async (e) => {
     const id_ai = generateId();
 
     if (!passKey) {
-        passKey = document.getElementById('passKey').value.replace(/\s/g, '');
+        setTimeout(() => {
+            chatForm.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    handleSubmit(e);
+                };
+            });
+        }, 1000);
+        passKey = document.getElementById('passKey').value;
+        // passKey = document.getElementById('passKey').value.replace(/\s/g, '');
         document.getElementById('passKey').remove();
     };
 
@@ -98,8 +106,3 @@ const handleSubmit = async (e) => {
 };
 
 chatForm.addEventListener('submit', handleSubmit);
-chatForm.addEventListener('keyup', (e) => {
-    if (e.key === 'Enter') {
-        handleSubmit(e);
-    }
-});
