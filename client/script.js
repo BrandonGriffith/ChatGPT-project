@@ -17,6 +17,7 @@ const loader = (e) => {
 const typeText = (e, text) => {
     let index = 0;
     const interval = setInterval(() => {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
         if (index < text.length) {
             e.innerHTML += text.charAt(index);
             index += 1;
